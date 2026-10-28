@@ -1,4 +1,4 @@
-from flask import flask, request
+from flask import Flask, request, jsonify
 import requests
 import pymysql
 from pymysql.cursors import DictCursor
@@ -31,6 +31,26 @@ with conn.cursor() as setup_cursor:
     """)
     conn.commit()
 
+app = Flask(__name__)
+
+app.route("login", methods = ["POST"])
+
+def login():
+    cursor = conn.cursor()
+    name = request.args.get("name")
+    email = request.args.get("email")
+    role = request.args.get("role")
+    community_id = request.args.get("community_id")
+
+    cursor.execute("INSERT INTO users (name, email, role, community_id) VALUES (%s,%s,%s,%s);", (name, email, role, community_id))
+    return jsonify("message", "successfully created user"), 201
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+
+    
 
 
 
