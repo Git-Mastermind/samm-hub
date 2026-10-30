@@ -23,10 +23,10 @@ def signup():
     if not email or "@" not in email:
         return jsonify({"message": "Valid email is required"}), 400
 
-    # Extract username from email (e.g., 'alex' from 'alex@example.com')
+
     username = email.split("@")[0]
 
-    # Save username alongside name, email, role, community_id, and password
+
     cursor.execute(
         "INSERT INTO users (name, username, email, role, community_id, password) VALUES (%s, %s, %s, %s, %s, %s);",
         (name, username, email, role, community_id, password)
